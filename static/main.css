@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  input[type="text"] {
+    width: 200px;
+    padding: 5px;
+    margin: 5px 0;
+  }
+  
+  input[type="button"] {
+    background-color: rgb(96, 50, 156);
+    color: white;
+    padding: 8px 15px;
+    margin: 10px 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+  }
+  
+  input[type="button"]:hover {
+    background-color: rgb(78, 40, 128);
+  }
+  
+  #percentIslands {
+    margin-top: 20px;
+  }
+  
+  #islandsDiv {
+    margin-top: 20px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 5px;
+  }
+  
+  p {
+    font-weight: bold;
+    margin: 5px 0;
+  }
+
+  a {
+    color: rgb(96, 50, 156);
+    text-decoration: none;
+    transition: color 0.3s ease; 
+  }
+  
+  a:hover {
+    color: rgb(96, 50, 156); 
+  }
+  
+  a[target="_blank"]::after {
+    content: " \2022"; 
+  }
+  
+  a[href="https://catalegdades.caib.cat/api/id/h63j-8h6m.json"] {
+    font-weight: bold; 
+  }

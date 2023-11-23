@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./static/main.css">
+</head>
+
+<body>
+
+    <h1>Playas Adheridas Programa Antitabaquismo 2022</h1>
+    
+    <h5>Dadas lo guarras que están algunas playas y muchas llenas de colillas, me llamó la atención esta Api para saber cuántas playas de las Islas Baleares forman parte de este programa, simplemente ese motivo :)</h5>
+
+    <a href="https://catalegdades.caib.cat/api/id/h63j-8h6m" target="_blank">Catàleg Dades Obertes Illes Balears</a><br>
+
+    <div>
+        <label for="municipio">Playas por Municipio</label>
+        <input type="text" name="municipio" id="municipio">
+        <input type="button" value="Buscar" onclick="getBeachesByMunicipality()">
+
+        <label for="municipio">Playas por Isla</label>
+        <input type="text" name="island" id="island">
+        <input type="button" value="Buscar" onclick="getBeachesByIsland()"> 
+    </div>
+
+    <input type="button" id="btnAllIslands" value="Buscar todas" onclick="getAllBeaches()">
+
+    <div id="percentIslands">
+    </div>
+
+    <div id="islandsDiv"></div>
+</body>
+<script>
+
+    var islandsResponseJson;
+    var totalBeaches = 0;
+    var beachPerIslandCounter = {};
+    var resultDiv = document.getElementById('islandsDiv');
+    var percentIslandDiv = document.getElementById('percentIslands');
+
+    async function getBeachesByMunicipality() {
+        var inputValue = document.getElementById('municipio').value;
+
+        var response = await fetch("http://127.0.0.1:8000/playas/municipio/" + inputValue)
+        if (response.status == 200) {
+            var json = await response.json();
+            islandsResponseJson = json;
+            displayIslands();
+        }
+    }
+
+    async function getBeachesByIsland() {
+        var inputValue = document.getElementById('island').value;
+
+        var response = await fetch("http://127.0.0.1:8000/playas?isla=" + inputValue)
+        if (response.status == 200) {
+            var json = await response.json();
+            islandsResponseJson = json;
+            displayIslands();
+        }
+    }
+
+    async function getAllBeaches(){
+        var response = await fetch("http://127.0.0.1:8000/playas-total")
+        if (response.status == 200) {
+            var json = await response.json();
+            islandsResponseJson = json;
+            totalBeaches = json.length;
+            displayIslands();
+        }
+        beachPerIslandCounter = {};
+        islandsResponseJson.forEach(element => {
+            var island = element.illa;
+
+            beachPerIslandCounter[island] = (beachPerIslandCounter[island] || 0) + 1
+        });
+        percentIslandDiv.innerHTML = "";    
+        for (const island in beachPerIslandCounter){
+            var newPercentParagraph = document.createElement("p");
+
+            const percent = (beachPerIslandCounter[island] / totalBeaches) * 100;
+
+            newPercentParagraph.className = "percent";
+            newPercentParagraph.innerHTML = `${island}: ${percent.toFixed(2)}%`;
+            percentIslandDiv.appendChild(newPercentParagraph);
+        }
+    }
+
+    function displayIslands() {
+        resultDiv.innerHTML = '';
+
+        var h2Total = document.createElement("h2");
+        h2Total.innerHTML = "Playas totales: " + islandsResponseJson.length
+        resultDiv.appendChild(h2Total)
+
+        for (var beach of islandsResponseJson) {
+            var newUl = document.createElement("ul");
+            resultDiv.appendChild(newUl);
+            for (var prop in beach) {
+                if (beach.hasOwnProperty(prop)) {
+                    var newLi = document.createElement("li");
+                    if (prop === 'the_geom') {
+                        newLi.innerHTML = "coordinates: " + beach[prop].coordinates.join(', ');
+                    } else {
+                        newLi.innerHTML = prop + ": " + beach[prop];
+                    }
+                    newUl.appendChild(newLi);
+                }
+            }
+        }
+    }
+
+</script>
+
+</html>
