@@ -44,7 +44,7 @@
     async function getBeachesByMunicipality() {
         var inputValue = document.getElementById('municipio').value;
 
-        var response = await fetch("http://127.0.0.1:8000/playas/municipio/" + inputValue)
+        var response = await fetch("http://pulpii-fastapi.onrender.com/playas/municipio/" + inputValue)
         if (response.status == 200) {
             var json = await response.json();
             islandsResponseJson = json;
@@ -55,7 +55,7 @@
     async function getBeachesByIsland() {
         var inputValue = document.getElementById('island').value;
 
-        var response = await fetch("http://127.0.0.1:8000/playas?isla=" + inputValue)
+        var response = await fetch("http://pulpii-fastapi.onrender.com/playas?isla=" + inputValue)
         if (response.status == 200) {
             var json = await response.json();
             islandsResponseJson = json;
@@ -64,7 +64,7 @@
     }
 
     async function getAllBeaches(){
-        var response = await fetch("http://127.0.0.1:8000/playas-total")
+        var response = await fetch("http://pulpii-fastapi.onrender.com/playas-total")
         if (response.status == 200) {
             var json = await response.json();
             islandsResponseJson = json;
