@@ -24,6 +24,8 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
+origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
